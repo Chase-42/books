@@ -24,12 +24,11 @@ class LoginForm extends React.Component {
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       this.setState({ loading: true });
-      this.props.submit(this.state.data).catch((err) =>
-        this.setState({
-          errors: err.response.data.errors,
-          loading: false,
-        })
-      );
+      this.props
+        .submit(this.state.data)
+        .catch((err) =>
+          this.setState({ errors: err.response.data.errors, loading: false })
+        );
     }
   };
 
@@ -37,17 +36,17 @@ class LoginForm extends React.Component {
     const errors = {};
     if (!Validator.isEmail(data.email)) errors.email = 'Invalid email';
     if (!data.password) errors.password = "Can't be blank";
-
     return errors;
   };
 
   render() {
     const { data, errors, loading } = this.state;
+
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
         {errors.global && (
           <Message negative>
-            <Message.Header>Sorry! Something went wrong :(</Message.Header>
+            <Message.Header>Something went wrong</Message.Header>
             <p>{errors.global}</p>
           </Message>
         )}
@@ -73,8 +72,8 @@ class LoginForm extends React.Component {
             value={data.password}
             onChange={this.onChange}
           />
+          {errors.password && <InlineError text={errors.password} />}
         </Form.Field>
-        {errors.password && <InlineError text={errors.password} />}
         <Button primary>Login</Button>
       </Form>
     );
