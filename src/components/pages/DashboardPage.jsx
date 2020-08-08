@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
+import ConfirmEmailMessage from '../messages/ConfirmEMailMessage';
 import { allBooksSelector } from '../../reducers/books';
 import AddBookCallToAction from '../callToActions/AddBookCallToAction';
 

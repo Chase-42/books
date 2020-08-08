@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { Form, Dropdown } from 'semantic-ui-react';
 
 class SearchBookForm extends Component {
@@ -18,11 +19,14 @@ class SearchBookForm extends Component {
     this.timer = setTimeout(this.fetchOptions, 1000);
   };
 
+  onChange = (e, data) => {
+    this.setState({ query: data.value });
+    this.props.onBookSelect(this.state.books[data.value]);
+  };
+
   fetchOptions = () => {
     if (!this.state.query) return;
-    this.setState({
-      loading: true,
-    });
+    this.setState({ loading: true });
     axios
       .get(`/api/books/search?q=${this.state.query}`)
       .then((res) => res.data.books)
@@ -52,10 +56,15 @@ class SearchBookForm extends Component {
           onSearchChange={this.onSearchChange}
           options={this.state.options}
           loading={this.state.loading}
+          onChange={this.onChange}
         />
       </Form>
     );
   }
 }
+
+SearchBookForm.propTypes = {
+  onBookSelect: PropTypes.func.isRequired,
+};
 
 export default SearchBookForm;
